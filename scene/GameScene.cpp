@@ -39,7 +39,22 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();
 }
 
-void GameScene::Update() {}
+void GameScene::Update() { 
+	/*value_++;*/
+	std::string strDebug = std::string("scale:") + std::to_string(worldTransform_.scale_.x) +
+	                       std::to_string(worldTransform_.scale_.y) +
+	                       std::to_string(worldTransform_.scale_.z);
+	debugText_->Print(strDebug,0, 0, 1.0f);
+	std::string strDebug2 = std::string("rotation_:") + std::to_string(worldTransform_.rotation_.x) +
+	                       std::to_string(worldTransform_.rotation_.y) +
+	                       std::to_string(worldTransform_.rotation_.z);
+	debugText_->Print(strDebug2, 0, 40, 1.0f);
+	std::string strDebug3 = std::string("rotation_:") +
+	                        std::to_string(worldTransform_.translation_.x) +
+	                        std::to_string(worldTransform_.translation_.y) +
+	                        std::to_string(worldTransform_.translation_.z);
+	debugText_->Print(strDebug3, 0, 80, 1.0f);
+}
 
 void GameScene::Draw() {
 

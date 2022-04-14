@@ -23,6 +23,9 @@ class GameScene {
 	// 3Dモデル
 	Model* model_ = nullptr;
 
+	//変数
+	int32_t value_ = 0;
+
 	//ワールドトランスフォーム
 	WorldTransform worldTransform_;
 	//ビュープロジェクション
