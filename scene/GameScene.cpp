@@ -22,6 +22,12 @@ void GameScene::Initialize() {
 	////ファイル名を指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("mario.jpg");
 
+	//サウンドデータの読み取り
+	soundDateHandle_ = audio_->LoadWave("se_sad03.wav");
+
+	//音声再生
+	voiceHandle_ = audio_->PlayWave(soundDateHandle_, true);
+
 	//3Dモデルの生成
 	model_ = Model::Create();
 
@@ -51,6 +57,19 @@ void GameScene::Update() {
 	position.y += 1.0f;
 	//移動した座標をスプライトに反映
 	sprite_->SetPosition(position);
+
+	//スペースキーを押した瞬間
+	if (input_->TriggerKey(DIK_SPACE)) {
+		//音声停止
+		audio_->StopWave(voiceHandle_);
+	}
+
+	//変数の値をインクリメント
+	value_++;
+	//値を含んだ文字列
+	std::string strDebug = std::string("Value:") + std::to_string(value_);
+	//デバッグテキストの表示
+	debugText_->Print(strDebug, 50, 50, 1.0f);
 }
 
 void GameScene::Draw() {
@@ -98,6 +117,7 @@ void GameScene::Draw() {
 //	 3Dオブジェクト描画後処理
 //	Model::PostDraw();
 //#pragma endregion
+// 
 
 #pragma region 前景スプライト描画
 	// 前景スプライト描画前処理

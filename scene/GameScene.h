@@ -27,6 +27,14 @@ class GameScene {
 	//スプライト
 	Sprite* sprite_ = nullptr;
 
+	//サウンドデータハンドル
+	uint32_t soundDateHandle_ = 10;
+	//音声再生ハンドル
+	uint32_t voiceHandle_ = 0;
+
+	//値を表示したい変数
+	int32_t value_ = 0;
+
 	//ワールドトランスフォーム
 	WorldTransform worldTransform_;
 	//ビュープロジェクション
