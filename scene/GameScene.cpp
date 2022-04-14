@@ -47,12 +47,30 @@ void GameScene::Initialize() {
 
 		//ワールドトランスフォームの初期化
 		worldTransform_[i].Initialize();
-		//ビュープロジェクションの初期化
-		viewProjection_.Initialize();
 	}
+	//カメラ視点座標を設定
+	viewProjection_.eye = {0, 0, -50};
+	viewProjection_.target = {10, 0, 0};
+	viewProjection_.up = {1, 0, 0};
+	//ビュープロジェクションの初期化
+	viewProjection_.Initialize();
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+
+std::string strDebug = std::string("eye:") + std::to_string(viewProjection_.eye.x) +
+	                       std::to_string(viewProjection_.eye.y) +
+	                       std::to_string(viewProjection_.eye.z);
+	debugText_->Print(strDebug, 0, 0, 1.0f);
+std::string strDebug2 = std::string("target:") + std::to_string(viewProjection_.target.x) +
+	                   std::to_string(viewProjection_.target.y) +
+	                   std::to_string(viewProjection_.target.z);
+debugText_->Print(strDebug2, 0, 30, 1.0f);
+std::string strDebug3 = std::string("up:") + std::to_string(viewProjection_.up.x) +
+	                    std::to_string(viewProjection_.up.y) +
+	                    std::to_string(viewProjection_.up.z);
+debugText_->Print(strDebug3, 0, 60, 1.0f);
+}
 
 void GameScene::Draw() {
 
