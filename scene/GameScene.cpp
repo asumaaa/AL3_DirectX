@@ -8,7 +8,8 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() 
 { 
-	/*delete model_;*/
+	delete model_;
+	delete sprite_;
 }
 
 void GameScene::Initialize() {
@@ -24,14 +25,17 @@ void GameScene::Initialize() {
 	//3Dモデルの生成
 	model_ = Model::Create();
 
+	//スプライトの生成
+	sprite_ = Sprite::Create(textureHandle_, {100, 50});
+
 	// X,Y,Z方向のスケーリングを設定
-	worldTransform_.scale_ = {5.0f, 5.0f, 5.0f};
+	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
 
 	// X, Y, Z軸周りの回転角を設定 XMConvertToRadians()
-	worldTransform_.rotation_ = {0.78f,0.78f , 0.0f};
+	worldTransform_.rotation_ = {0.f,0.f , 0.0f};
 
 	// X, Y, Z軸周りの平行移動を設定
-	worldTransform_.translation_ = {10.0f, 10.f, 10.0f};
+	worldTransform_.translation_ = {0.0f, 0.f, 0.0f};
 
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
@@ -39,7 +43,15 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+	//スプライトの今の座標を取得
+	XMFLOAT2 position = sprite_->GetPosition();
+	//座標を{2.1}移動
+	position.x += 2.0f;
+	position.y += 1.0f;
+	//移動した座標をスプライトに反映
+	sprite_->SetPosition(position);
+}
 
 void GameScene::Draw() {
 
@@ -53,6 +65,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
+	sprite_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
