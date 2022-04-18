@@ -58,18 +58,87 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 
-std::string strDebug = std::string("eye:") + std::to_string(viewProjection_.eye.x) +
-	                       std::to_string(viewProjection_.eye.y) +
-	                       std::to_string(viewProjection_.eye.z);
-	debugText_->Print(strDebug, 0, 0, 1.0f);
-std::string strDebug2 = std::string("target:") + std::to_string(viewProjection_.target.x) +
-	                   std::to_string(viewProjection_.target.y) +
-	                   std::to_string(viewProjection_.target.z);
-debugText_->Print(strDebug2, 0, 30, 1.0f);
-std::string strDebug3 = std::string("up:") + std::to_string(viewProjection_.up.x) +
-	                    std::to_string(viewProjection_.up.y) +
-	                    std::to_string(viewProjection_.up.z);
-debugText_->Print(strDebug3, 0, 60, 1.0f);
+	//視点移動処理
+	{
+		//視点移動のベクトル
+		XMFLOAT3 move = {0, 0, 0};
+		//視点移動の速さ
+		const float kEyeSpead = 0.2f;
+
+		//押した方向で移動ベクトルを変更
+		if (input_->PushKey(DIK_W)) 
+		{
+			move = {0, 0, kEyeSpead};
+		} 
+		else if (input_->PushKey(DIK_S)) 
+		{
+			move = {0, 0, -kEyeSpead};
+		}
+
+		//視点移動（ベクトルの加算）
+		viewProjection_.eye.x += move.x;
+		viewProjection_.eye.y += move.y;
+		viewProjection_.eye.z += move.z;
+
+		//行列の再計算
+		viewProjection_.UpdateMatrix();
+
+		debugText_->SetPos(50, 50);
+		debugText_->Printf(
+		  "eye:(%f,%f,%f)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
+	}
+
+	//注視点移動処理
+	{
+		//視点移動のベクトル
+		XMFLOAT3 move = {0, 0, 0};
+		//視点移動の速さ
+		const float kEyeSpead = 0.2f;
+
+		//押した方向で移動ベクトルを変更
+		if (input_->PushKey(DIK_LEFT)) {
+			move = {0, 0, kEyeSpead};
+		} else if (input_->PushKey(DIK_RIGHT)) {
+			move = {0, 0, -kEyeSpead};
+		}
+
+		//視点移動（ベクトルの加算）
+		viewProjection_.target.x += move.x;
+		viewProjection_.target.y += move.y;
+		viewProjection_.target.z += move.z;
+
+		//行列の再計算
+		viewProjection_.UpdateMatrix();
+
+		debugText_->SetPos(50, 70);
+		debugText_->Printf(
+		  "target:(%f,%f,%f)", viewProjection_.target.x, viewProjection_.target.y,
+		  viewProjection_.target.z);
+	}
+
+	//上方向回転処理
+	{
+		//上方向の回転速さ[ラジアン/frame]
+		const float kUpRotSpeed = 0.05f;
+
+		//押した方向でベクトルを変更
+		if (input_->PushKey(DIK_SPACE)) {
+			viewAngle += kUpRotSpeed;
+			//2πを超えたら0に戻す
+			viewAngle = fmodf(viewAngle, XM_2PI);
+		}
+
+		//上方向ベクトルを計算
+		viewProjection_.up = {cosf(viewAngle), sinf(viewAngle), 0.0f};
+
+		//行列の再計算
+		viewProjection_.UpdateMatrix();
+
+		debugText_->SetPos(50, 90);
+		debugText_->Printf(
+		  "up:(%f,%f,%f)", viewProjection_.up.x, viewProjection_.up.y,
+		  viewProjection_.up.z);
+	}
 }
 
 void GameScene::Draw() {
