@@ -61,25 +61,25 @@ void GameScene::Initialize() {
 	worldTransform_[PartId::Head].parent_ = &worldTransform_[PartId::Chest];
 	// ArmL
 	worldTransform_[PartId::ArmL].Initialize();
-	worldTransform_[PartId::ArmL].translation_ = {-10, 0, 0};
+	worldTransform_[PartId::ArmL].translation_ = {-4, 0, 0};
 	worldTransform_[PartId::ArmL].parent_ = &worldTransform_[PartId::Chest];
 	// ArmR
 	worldTransform_[PartId::ArmR].Initialize();
-	worldTransform_[PartId::ArmR].translation_ = {10, 0, 0};
+	worldTransform_[PartId::ArmR].translation_ = {4, 0, 0};
 	worldTransform_[PartId::ArmR].parent_ = &worldTransform_[PartId::Chest];
 
 	//下半身
 	// Hip
 	worldTransform_[PartId::Hip].Initialize();
-	worldTransform_[PartId::Hip].translation_ = {0, -0, 0};
+	worldTransform_[PartId::Hip].translation_ = {0, 0, 0};
 	worldTransform_[PartId::Hip].parent_ = &worldTransform_[PartId::Spine];
 	// LegL
 	worldTransform_[PartId::LegL].Initialize();
-	worldTransform_[PartId::LegL].translation_ = {-10, -4.5f, 0};
+	worldTransform_[PartId::LegL].translation_ = {-4, -4.5f, 0};
 	worldTransform_[PartId::LegL].parent_ = &worldTransform_[PartId::Hip];
 	// LegR
 	worldTransform_[PartId::LegR].Initialize();
-	worldTransform_[PartId::LegR].translation_ = {10, -4.5f, 0};
+	worldTransform_[PartId::LegR].translation_ = {4, -4.5f, 0};
 	worldTransform_[PartId::LegR].parent_ = &worldTransform_[PartId::Hip];
 
 
