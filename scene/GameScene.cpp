@@ -8,7 +8,7 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() 
 { 
-	/*delete model_;*/
+	delete model_;
 }
 
 void GameScene::Initialize() {
@@ -24,36 +24,33 @@ void GameScene::Initialize() {
 	//3Dモデルの生成
 	model_ = Model::Create();
 
-	// X,Y,Z方向のスケーリングを設定
-	worldTransform_.scale_ = {5.0f, 5.0f, 5.0f};
+	for (int i = 0; i < 20; i++) {
+		// X,Y,Z方向のスケーリングを設定
+		worldTransform_[i].scale_ = {5.0f, 5.0f, 5.0f};
 
-	// X, Y, Z軸周りの回転角を設定 XMConvertToRadians()
-	worldTransform_.rotation_ = {0.78f,0.78f , 0.0f};
+		// X, Y, Z軸周りの回転角を設定 XMConvertToRadians()
+		worldTransform_[i].rotation_ = {0.0f, 0.0f, 0.0f};
 
-	// X, Y, Z軸周りの平行移動を設定
-	worldTransform_.translation_ = {10.0f, 10.f, 10.0f};
+		// X, Y, Z軸周りの平行移動を設定
+		worldTransform_[i].translation_ = {-40.0f, 20.f, 10.0f};
+		//X座標を20ずつずらす
+		worldTransform_[i].translation_.x += i * 10;
+		if (i >= 10) {
+			worldTransform_[i].translation_.x -= 100;
+			worldTransform_[i].translation_.y = -20;
+		}
+	}
 
 	//ワールドトランスフォームの初期化
-	worldTransform_.Initialize();
+	for (int i = 0; i < 20; i++) {
+		worldTransform_[i].Initialize();
+	}
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 }
 
 void GameScene::Update() { 
-	/*value_++;*/
-	std::string strDebug = std::string("scale:") + std::to_string(worldTransform_.scale_.x) +
-	                       std::to_string(worldTransform_.scale_.y) +
-	                       std::to_string(worldTransform_.scale_.z);
-	debugText_->Print(strDebug,0, 0, 1.0f);
-	std::string strDebug2 = std::string("rotation_:") + std::to_string(worldTransform_.rotation_.x) +
-	                       std::to_string(worldTransform_.rotation_.y) +
-	                       std::to_string(worldTransform_.rotation_.z);
-	debugText_->Print(strDebug2, 0, 40, 1.0f);
-	std::string strDebug3 = std::string("rotation_:") +
-	                        std::to_string(worldTransform_.translation_.x) +
-	                        std::to_string(worldTransform_.translation_.y) +
-	                        std::to_string(worldTransform_.translation_.z);
-	debugText_->Print(strDebug3, 0, 80, 1.0f);
+
 }
 
 void GameScene::Draw() {
@@ -82,7 +79,9 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
+	for (int i = 0; i < 20; i++) {
+		model_->Draw(worldTransform_[i], viewProjection_, textureHandle_);
+	}
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
