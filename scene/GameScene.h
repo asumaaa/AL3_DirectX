@@ -27,7 +27,7 @@ class GameScene {
 	int32_t value_ = 0;
 
 	//ワールドトランスフォーム
-	WorldTransform worldTransform_[10][10];
+	WorldTransform worldTransform_[10][10][10];
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
 

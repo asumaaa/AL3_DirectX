@@ -24,33 +24,32 @@ void GameScene::Initialize() {
 	//3Dモデルの生成
 	model_ = Model::Create();
 
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++) {
-			// X,Y,Z方向のスケーリングを設定
-			//i,j共に偶数の場合大きさを0にする
-			if (i == 0 || j == 0||i % 2 == 0 && j % 2 == 0) {
-				worldTransform_[i][j].scale_ = {0.0f, 0.0f, 0.0f};
-			} else {
-				worldTransform_[i][j].scale_ = {1.0f, 1.0f, 1.0f};
+	for (int x = 0; x < 10; x++) {
+		for (int y = 0; y < 10; y++) {
+			for (int z = 0; z < 10; z++) {
+				// X,Y,Z方向のスケーリングを設定
+				worldTransform_[x][y][z].scale_ = {1.0f, 1.0f, 1.0f};
+
+				// X, Y, Z軸周りの回転角を設定 XMConvertToRadians()
+				worldTransform_[x][y][z].rotation_ = {0.0f, 0.0f, 0.0f};
+
+				// X, Y, Z軸周りの平行移動を設定
+				worldTransform_[x][y][z].translation_ = {-20.0f, 20.f, 10.0f};
+
+				// 座標を4ずつずらす
+				worldTransform_[x][y][z].translation_.x += x * 3;
+				worldTransform_[x][y][z].translation_.y -= y * 3;
+				worldTransform_[x][y][z].translation_.z += z * 3;
 			}
-			
-
-			// X, Y, Z軸周りの回転角を設定 XMConvertToRadians()
-			worldTransform_[i][j].rotation_ = {0.0f, 0.0f, 0.0f};
-
-			// X, Y, Z軸周りの平行移動を設定
-			worldTransform_[i][j].translation_ = {-20.0f, 20.f, 10.0f};
-
-			// 座標を4ずつずらす
-			worldTransform_[i][j].translation_.x += i * 4;
-			worldTransform_[i][j].translation_.y -= j * 4;
 		}
 	}
 
 	//ワールドトランスフォームの初期化
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++) {
-			worldTransform_[i][j].Initialize();
+	for (int x = 0; x < 10; x++) {
+		for (int y = 0; y < 10; y++) {
+			for (int z = 0; z < 10; z++) {
+				worldTransform_[x][y][z].Initialize();
+			}
 		}
 	}
 	//ビュープロジェクションの初期化
@@ -87,9 +86,11 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++) {
-			model_->Draw(worldTransform_[i][j], viewProjection_, textureHandle_);
+	for (int x = 0; x < 10; x++) {
+		for (int y = 0; y < 10; y++) {
+			for (int z = 0; z < 10; z++) {
+				model_->Draw(worldTransform_[x][y][z], viewProjection_, textureHandle_);
+			}
 		}
 	}
 
