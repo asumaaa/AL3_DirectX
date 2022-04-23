@@ -24,26 +24,34 @@ void GameScene::Initialize() {
 	//3Dモデルの生成
 	model_ = Model::Create();
 
-	for (int i = 0; i < 20; i++) {
-		// X,Y,Z方向のスケーリングを設定
-		worldTransform_[i].scale_ = {5.0f, 5.0f, 5.0f};
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			// X,Y,Z方向のスケーリングを設定
+			//i,j共に偶数の場合大きさを0にする
+			if (i == 0 || j == 0||i % 2 == 0 && j % 2 == 0) {
+				worldTransform_[i][j].scale_ = {0.0f, 0.0f, 0.0f};
+			} else {
+				worldTransform_[i][j].scale_ = {1.0f, 1.0f, 1.0f};
+			}
+			
 
-		// X, Y, Z軸周りの回転角を設定 XMConvertToRadians()
-		worldTransform_[i].rotation_ = {0.0f, 0.0f, 0.0f};
+			// X, Y, Z軸周りの回転角を設定 XMConvertToRadians()
+			worldTransform_[i][j].rotation_ = {0.0f, 0.0f, 0.0f};
 
-		// X, Y, Z軸周りの平行移動を設定
-		worldTransform_[i].translation_ = {-40.0f, 20.f, 10.0f};
-		//X座標を20ずつずらす
-		worldTransform_[i].translation_.x += i * 10;
-		if (i >= 10) {
-			worldTransform_[i].translation_.x -= 100;
-			worldTransform_[i].translation_.y = -20;
+			// X, Y, Z軸周りの平行移動を設定
+			worldTransform_[i][j].translation_ = {-20.0f, 20.f, 10.0f};
+
+			// 座標を4ずつずらす
+			worldTransform_[i][j].translation_.x += i * 4;
+			worldTransform_[i][j].translation_.y -= j * 4;
 		}
 	}
 
 	//ワールドトランスフォームの初期化
-	for (int i = 0; i < 20; i++) {
-		worldTransform_[i].Initialize();
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			worldTransform_[i][j].Initialize();
+		}
 	}
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
@@ -79,8 +87,10 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	for (int i = 0; i < 20; i++) {
-		model_->Draw(worldTransform_[i], viewProjection_, textureHandle_);
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			model_->Draw(worldTransform_[i][j], viewProjection_, textureHandle_);
+		}
 	}
 
 	// 3Dオブジェクト描画後処理
